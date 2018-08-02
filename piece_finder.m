@@ -252,29 +252,29 @@ for z = 1:length(yprime) % Plot horizontal lines
 end
 
 %% Thresholding Methods
-% 1. Otsu's Method
+% Original (red channel)
 %figure
 %subplot(2,3,1), imshow(Sq1), title('Original')
 
-% 2. Red Channel
+% 1. Red Channel
 gs = Sq1(:,:,1); 
 %subplot(2,3,2); imshow(gs), title('Grayscale')
 
-% 3. Global Otsu thresholding
+% 2. Global Otsu thresholding
 T = graythresh(gs);
 global_otsu = gs<255*T;
 %subplot(2,3,3); imshow(global_otsu, []), title('Global thresholding-Otsu')
 
-% 4. Regional thresholding using Otsu
+% 3. Regional thresholding using Otsu
 fun = @(block_struct) otsu_local_thresh(block_struct.data);
 B = blockproc(gs, [150 150], fun);
 %subplot(2,3,4); imshow(B, []), title('Regional Thresholding - Otsu')
 
-% 5. Simple thresholding
+% 4. Simple thresholding
 binary = (gs)<55;   % FUTURE WORK - Play around with this number
 %subplot(2,3,5);  imshow(binary), title('Simple thresholding')
 
-% 6. Find Canny edges
+% 5. Find Canny edges
 BW = edge(gs<255*T, 'Canny');   % can add threshold value
 %subplot(2,3,6); imshow(BW), title('Canny Edges')
 
